@@ -18,3 +18,8 @@ Route::middleware([HelloMiddleware::class])->group(function(){
     Route::get('/hello', 'HelloController@index');
     Route::get('/hello/other', 'HelloController@other');
 });
+
+Route::namespace('Sample')->group(function(){
+    Route::get('/sample', 'SampleController@index');
+    Route::get('/sample/other', 'SampleController@other');
+});
