@@ -7,12 +7,16 @@ use App\Models\Person;
 
 class HelloController extends Controller
 {
-    public function index($person)
+    public function index(Request $request)
     {
+        $msg = 'please input text:';
+        if($request->isMethod('post'))
+        {
+            $msg = 'you typed: "' . $request->input('msg') . '"';
+        }
         $data = [
-            'msg' => $person
+            'msg' => $msg,
         ];
-
         return view('hello.index', $data);
     }
 
