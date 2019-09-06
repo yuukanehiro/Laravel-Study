@@ -14,7 +14,7 @@ class HelloController extends Controller
         $keys   = [];
         $values = [];
         if ($request->isMethod('post')) {
-            $form   = $request->all();
+            $form   = $request->only(['name', 'mail', 'tel']);
             $result = '<html><body>';
             foreach($form as $key => $value)
             {
