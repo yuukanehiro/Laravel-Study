@@ -18,9 +18,7 @@ use App\Http\Middleware\HelloMiddleware;
 //     Route::get('/hello', 'HelloController@index');
 //     Route::get('/hello/other', 'HelloController@other');
 // });
-Route::get('/hello/', 'HelloController@index');
-Route::post('/hello/', 'HelloController@index');
-Route::get('/hello/other', 'HelloController@other');
+Route::get('/hello/{id}', 'HelloController@index');
 
 
 Route::namespace('Sample')->group(function(){

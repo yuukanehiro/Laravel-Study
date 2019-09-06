@@ -1,41 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Models\Person;
+use App\MyClasses\MyService;
 
 class HelloController extends Controller
 {
-    public function index(Request $request, Response $response)
+    public function index(int $id = -1)
     {
-        $msg    = 'please input text:';
-        $keys   = [];
-        $values = [];
-        if ($request->isMethod('post')) {
-            $form   = $request->only(['name', 'mail', 'tel']);
-            $result = '<html><body>';
-            foreach($form as $key => $value)
-            {
-                $result .= $key . ': ' . $value . "<br>";
-            }
-            $result .= '</body></html>';
-            $response->setContent($result);
-            return $response;
-        }
+        $myservice = app()->makeWith('App\MyClasses\Myservice', ['id' => $id]);
         $data = [
-            'msg'    => $msg,
-            'keys'   => $keys,
-            'values' => $values,
-        ];
-        return view('hello.index', $data);
-    }
-
-    public function other(Request $request)
-    {
-        $data = [
-            'msg' => $request->bye
+            'msg'  => $myservice->say($id),
+            'data' => $myservice->alldata()
         ];
         return view('hello.index', $data);
     }
