@@ -12,7 +12,7 @@ class HelloController extends Controller
         if ($name != '') {
             $msg = 'get name like ' . $name . '"';
             $result = DB::table('people')
-                ->where('name', 'like', '%' . $name . '%')->get();
+                ->whereRaw('name like ?', ['%'.$name.'%'])->get();
         } else {
             $msg = 'get people records';
             $result = DB::table('people')->get();
