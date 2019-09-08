@@ -7,12 +7,17 @@ use Illuminate\Support\Facades\DB;
 
 class HelloController extends Controller
 {
-    public function index($name = "hoge")
+    public function index($id = -1)
     {
-        $msg = "get people records.";
-        $first = DB::table('people')->first();
-        $last  = DB::table('people')->orderBy('id', 'desc')->first();
-        $result = [$first, $last];
+        if($id >= 0)
+        {
+            $msg = 'get name like "' . $id . '"';
+            $result = [DB::table('people')->find($id)];
+        }
+        else{
+            $msg = 'get people records.';
+            $result = DB::table('people')->get();
+        }
 
         $data = [
             'msg'  => 'Database access',
