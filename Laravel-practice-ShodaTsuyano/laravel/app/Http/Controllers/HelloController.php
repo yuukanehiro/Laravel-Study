@@ -6,9 +6,18 @@ use Illuminate\Support\Facades\DB;
 
 class HelloController extends Controller
 {
-    public function index()
+    public function index($id = -1)
     {
-        $result = DB::table('people')->get();
+        if($id >= 0)
+        {
+            $msg = "get ID <= " . $id;
+            $result = DB::table('people')->where('id', '<=', $id)->get();
+        }
+        else{
+            $msg = 'get people records';
+            $result = DB::table('people')->get();
+        }
+
         $data = [
             'msg'  => 'Database access',
             'data' => $result
