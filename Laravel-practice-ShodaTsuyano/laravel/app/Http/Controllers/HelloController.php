@@ -9,14 +9,10 @@ class HelloController extends Controller
 {
     public function index($name = "hoge")
     {
-        if ($name != '') {
-            $msg = 'get name like ' . $name . '"';
-            $result = DB::table('people')
-                ->whereRaw('name like ?', ['%'.$name.'%'])->get();
-        } else {
-            $msg = 'get people records';
-            $result = DB::table('people')->get();
-        }
+        $msg = "get people records.";
+        $first = DB::table('people')->first();
+        $last  = DB::table('people')->orderBy('id', 'desc')->first();
+        $result = [$first, $last];
 
         $data = [
             'msg'  => 'Database access',
