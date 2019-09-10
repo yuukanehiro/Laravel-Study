@@ -9,11 +9,21 @@ class HelloController extends Controller
 {
     public function index($id = -1)
     {
-        $name = DB::table('people')->pluck('name');
-        $value = $name->toArray();
-        $msg = implode(',', $value);
+        $data = ['msg' => '', 'data' => []];
+        $msg = 'get: ';
+        $result = [];
+        DB::table('people')->orderBy('name', 'asc')
+            ->chunk(2, function($items) use (&$msg, &$result)
+        {
+            foreach($items as $item)
+            {
+                $msg .= $item->id . ': ' . $item->name;
+                $result += array_merge($result, [$item]);
+                break;
+            }
+            return true;
+        });
 
-        $result = DB::table('people')->get();
         $data = [
             'msg'  => $msg,
             'data' => $result
