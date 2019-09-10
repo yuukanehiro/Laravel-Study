@@ -10,11 +10,17 @@
     <h1>Hello/Index</h1>
     <p>{!!$msg!!}</p>
     <ol>
+         <table>
            @foreach($data as $item)
-               <li>ID:{{ $item->id }} {{ $item->name }} [{{ $item->mail }}, {{$item->age}}]</li>
+               <tr>
+                      <th>{{ $item->id }}</th>
+                      <th>{{ $item->name }}</th>
+                      <th>{{ $item->mail }}</th>
+                      <th>{{ $item->age }}</th>
+               </tr>
            @endforeach
+         </table>
     </ol>
-    {!! $paginator->link() !!}
     <hr>
 </body>
 
