@@ -7,22 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 class HelloController extends Controller
 {
-    public function index($id = -1)
+    public function index($id)
     {
-        $data = ['msg' => '', 'data' => []];
-        $msg = 'get: ';
-        $result = [];
-        DB::table('people')->orderBy('name', 'asc')
-            ->chunk(2, function($items) use (&$msg, &$result)
-        {
-            foreach($items as $item)
-            {
-                $msg .= $item->id . ': ' . $item->name;
-                $result += array_merge($result, [$item]);
-                break;
-            }
-            return true;
-        });
+        $ids = explode(',', $id);
+        $msg = 'get people.';
+        $result = DB::table('people')
+            ->whereIn('id', $ids)
+            ->get();
 
         $data = [
             'msg'  => $msg,

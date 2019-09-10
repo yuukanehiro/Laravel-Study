@@ -10,7 +10,7 @@
     <p>{!!$msg!!}</p>
     <ol>
            @foreach($data as $item)
-               <li>{{ $item->name }} [{{ $item->mail }}, {{$item->age}}]</li>
+               <li>ID:{{ $item->id }} {{ $item->name }} [{{ $item->mail }}, {{$item->age}}]</li>
            @endforeach
     </ol>
     <hr>

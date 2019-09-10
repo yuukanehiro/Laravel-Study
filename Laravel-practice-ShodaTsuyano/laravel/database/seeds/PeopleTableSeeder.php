@@ -44,7 +44,7 @@ class PeopleTableSeeder extends Seeder
             'updated_at' => new DateTime(),
         ]);
         DB::table('people')->insert([
-            'id'   => 6,
+            'id'   => 5,
             'name' => 'don',
             'mail' => 'don@example.net',
             'age' => 6,
@@ -52,7 +52,7 @@ class PeopleTableSeeder extends Seeder
             'updated_at' => new DateTime(),
         ]);
         DB::table('people')->insert([
-            'id'   => 7,
+            'id'   => 6,
             'name' => 'miyu',
             'mail' => 'miyu@example.net',
             'age' => 6,
