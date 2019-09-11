@@ -11,6 +11,16 @@ class Person extends Model
     {
         return new MyCollection($models);
     }
+
+    public function getNameAndAgeAttribute()
+    {
+        return $this->name . '(' . $this->age . ')';
+    }
+
+    public function getNameAttribute($value)
+    {
+        return strtoupper($value);
+    }
 }
 
 class MyCollection extends Collection

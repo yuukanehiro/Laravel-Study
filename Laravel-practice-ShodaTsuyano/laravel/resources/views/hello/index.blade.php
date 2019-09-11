@@ -14,9 +14,7 @@
            @foreach($data as $item)
                <tr>
                       <th>{{ $item->id }}</th>
-                      <th>{{ $item->name }}</th>
-                      <th>{{ $item->mail }}</th>
-                      <th>{{ $item->age }}</th>
+                      <th>{{ $item->name_and_age }}</th>
                </tr>
            @endforeach
          </table>
