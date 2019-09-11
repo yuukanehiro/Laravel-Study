@@ -15,14 +15,13 @@ class HelloController extends Controller
         $id_even = Person::get()->filter(function($item){
             return $item->id % 2 === 0;
         });
-        $age_even = Person::get()->filter(function($item){
-            return $item->age % 2 === 0;
+        $map = $id_even->map(function($item, $key){
+            return $item->id . ':' . $item->name;
         });
-        $result = $id_even->merge($age_even);
 
         $data = [
-            'msg'  => $msg,
-            'data' => $result
+            'msg'  => $map,
+            'data' => $id_even
         ];
         return view('hello.index', $data);
     }
