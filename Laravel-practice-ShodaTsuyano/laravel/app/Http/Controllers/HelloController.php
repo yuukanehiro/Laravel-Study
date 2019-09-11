@@ -12,20 +12,17 @@ class HelloController extends Controller
     public function index(Request $request)
     {
         $msg = 'show people record.';
-        $result = Person::get()->filter(function($person)
-        {
-            return $person->age < 70;
+        $id_even = Person::get()->filter(function($item){
+            return $item->id % 2 === 0;
         });
-        $result2 = Person::get()->filter(function($person)
-        {
-            return $person->age < 10;
+        $age_even = Person::get()->filter(function($item){
+            return $item->age % 2 === 0;
         });
-        // 70歳以下のレコード群から、10歳以下のレコードを取り除いたもの
-        $result3 = $result->diff($result2);
+        $result = $id_even->merge($age_even);
 
         $data = [
             'msg'  => $msg,
-            'data' => $result3
+            'data' => $result
         ];
         return view('hello.index', $data);
     }
