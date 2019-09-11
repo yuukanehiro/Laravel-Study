@@ -12,16 +12,12 @@ class HelloController extends Controller
     public function index(Request $request)
     {
         $msg = 'show people record.';
-        $id_even = Person::get()->filter(function($item){
-            return $item->id % 2 === 0;
-        });
-        $map = $id_even->map(function($item, $key){
-            return $item->id . ':' . $item->name;
-        });
+        $re = Person::get();
+        $fields = Person::get()->fields();
 
         $data = [
-            'msg'  => $map,
-            'data' => $id_even
+            'msg'  => implode(', ', $fields),
+            'data' => $re
         ];
         return view('hello.index', $data);
     }
