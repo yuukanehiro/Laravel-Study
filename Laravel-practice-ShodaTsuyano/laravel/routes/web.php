@@ -18,7 +18,10 @@ use App\Http\Middleware\HelloMiddleware;
 //     Route::get('/hello', 'HelloController@index');
 //     Route::get('/hello/other', 'HelloController@other');
 // });
-
+//Route::get('/hello/{id}', 'HelloController@index');
+Route::get('/hello', 'HelloController@index')->name('hello');
+//Route::get('/hello/{id}/{name}', 'HelloController@save');
+//Route::get('/other', 'HelloController@other');
 Route::get('/hello/json', 'HelloController@json');
 Route::get('/hello/json/{id}', 'HelloController@json');
 

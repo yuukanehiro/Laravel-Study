@@ -33,7 +33,7 @@ class HelloController extends Controller
     public function other()
     {
         $person = new Person();
-        $person->all_data = ['aaa','bbb@ccc', 1234]; // ダミーデータ
+        $person->all_data = ['yudetarou','yudetarou@example.net', 42]; // ダミーデータ
         $person->save();
 
         return redirect()->route('hello');
