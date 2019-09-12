@@ -21,4 +21,32 @@ class HelloController extends Controller
         ];
         return view('hello.index', $data);
     }
+
+    public function save($id, $name)
+    {
+        $record = Person::find($id); // 1. id = 1のモデルを取得する
+        $record->name = $name;       // 2. id = 1のモデルのnameプロパティに値を入れる
+        $record->save();             // 3. 保存する
+        return redirect()->route('hello');
+    }
+
+    public function other()
+    {
+        $person = new Person();
+        $person->all_data = ['aaa','bbb@ccc', 1234]; // ダミーデータ
+        $person->save();
+
+        return redirect()->route('hello');
+    }
+
+    public function json($id = -1)
+    {
+        if($id == -1)
+        {
+            return Person::get()->toJson();
+        }
+        else{
+            return Person::find($id)->toJson();
+        }
+    }
 }
