@@ -10,9 +10,13 @@ use App\Jobs\MyJob;
 
 class HelloController extends Controller
 {
-    public function index(Request $request)
+    public function index(Person $person = null)
     {
-        MyJob::dispatch();
+        if($person != null)
+        {
+            $qname = $person->id % 2 == 0 ? 'even' : 'odd';
+            MyJob::dispatch($person)->onQueue($qname);
+        }
         $msg = 'show people record.';
         $result = Person::get();
         $data = [
