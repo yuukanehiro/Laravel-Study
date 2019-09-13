@@ -7,16 +7,13 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Person;
 use App\Http\Pagination\MyPaginator;
 use App\Jobs\MyJob;
+use Illuminate\Support\Facades\Storage;
+use App\Events\PersonEvent;
 
 class HelloController extends Controller
 {
     public function index(Person $person = null)
     {
-        if($person != null)
-        {
-            $qname = $person->id % 2 == 0 ? 'even' : 'odd';
-            MyJob::dispatch($person)->onQueue($qname);
-        }
         $msg = 'show people record.';
         $result = Person::get();
         $data = [
@@ -25,6 +22,19 @@ class HelloController extends Controller
             'data'  => $result
         ];
         return view('hello.index', $data);
+    }
+
+    public function send(Request $request)
+    {
+        $id = $request->input('id');
+        $person = Person::find($id);
+        event(new PersonEvent($person));
+        $data = [
+            'input' => '',
+            'msg'   => 'id=' . $id,
+            'data'  => [$person],
+        ];
+        return redirect()->route('hello');
     }
 
     public function save($id, $name)
