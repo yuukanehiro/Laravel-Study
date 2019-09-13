@@ -30,6 +30,11 @@ class Person extends Model
         return strtoupper($value);
     }
 
+    public function getAllDataAttribute($value)
+    {
+        return $this->name . '(' . $this->age . ')' . ' [' . $this->mail . ']';
+    }
+
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = strtoupper($value);
@@ -39,7 +44,7 @@ class Person extends Model
     {
         $this->attributes['name'] = $value[0];
         $this->attributes['mail'] = $value[1];
-        $this->attributes['age'] = $value[2];
+        $this->attributes['age']  = $value[2];
     }
 
 

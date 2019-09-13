@@ -6,18 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Person;
 use App\Http\Pagination\MyPaginator;
+use App\Jobs\MyJob;
 
 class HelloController extends Controller
 {
     public function index(Request $request)
     {
+        MyJob::dispatch();
         $msg = 'show people record.';
-        $re = Person::get();
-        $fields = Person::get()->fields();
-
+        $result = Person::get();
         $data = [
-            'msg'  => implode(', ', $fields),
-            'data' => $re
+            'input' => '',
+            'msg'   => $msg,
+            'data'  => $result
         ];
         return view('hello.index', $data);
     }
