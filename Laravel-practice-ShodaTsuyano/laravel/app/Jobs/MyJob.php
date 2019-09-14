@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\Person;
+use Illuminate\Support\Facades\Storage;
 
 
 class MyJob implements ShouldQueue
@@ -16,14 +17,24 @@ class MyJob implements ShouldQueue
 
     protected $person;
 
+    public function getPersonId()
+    {
+        return $this->person->id;
+    }
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Person $person)
+    public function __construct($id)
     {
-        $this->person = $person;
+        $this->person = Person::find($id)->first();
+    }
+
+    public function __invoke()
+    {
+        $this->handle();
     }
 
     /**
@@ -33,13 +44,21 @@ class MyJob implements ShouldQueue
      */
     public function handle()
     {
+        $this->doJob();
+    }
+
+    public function doJob()
+    {
         $sufix = ' [+MYJOB]';
-        if (strpos($this->person->name, $sufix))
+        if(strpos($this->person->name, $sufix))
         {
-            $this->person->name = str_replace( $sufix, '', $this->person->name);
-        } else {
+            $this->person->name = str_replace( $sufix, '', $this->person->name );
+        }else{
             $this->person->name .= $sufix;
         }
         $this->person->save();
+
+        Storage::append('person_access_log.txt',
+            $this->person->all_data);
     }
 }
