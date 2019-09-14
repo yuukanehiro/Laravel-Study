@@ -1,0 +1,1 @@
+[Sat Sep 14 18:57:20 JST 2019] This is MyCmd.sh.

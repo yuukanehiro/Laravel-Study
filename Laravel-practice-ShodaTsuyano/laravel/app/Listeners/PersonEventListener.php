@@ -7,8 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Person;
 use Illuminate\Support\Facades\Storage;
-
-class PersonEventListener
+class PersonEventListener implements ShouldQueue
 {
     /**
      * Create the event listener.
