@@ -14,14 +14,22 @@ class HelloController extends Controller
 {
     public function index(Person $person = null)
     {
-        $msg = 'show people record.';
-        $result = Person::get();
-        $data = [
-            'input' => '',
-            'msg'   => $msg,
-            'data'  => $result
-        ];
-        return view('hello.index', $data);
+         $data = [
+             'msg' => 'This is Vue.js application.'
+         ];
+         return view('hello.index', $data);
+    }
+
+    public function json(int $id = -1)
+    {
+        if($id = -1)
+        {
+            return Person::get()->toJson();
+        }
+        else
+        {
+            return Person::find($id)->toJson();
+        }
     }
 
     public function send(Request $request)
@@ -54,14 +62,5 @@ class HelloController extends Controller
         return redirect()->route('hello');
     }
 
-    public function json($id = -1)
-    {
-        if($id == -1)
-        {
-            return Person::get()->toJson();
-        }
-        else{
-            return Person::find($id)->toJson();
-        }
-    }
+
 }

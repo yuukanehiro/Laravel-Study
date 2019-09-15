@@ -52,6 +52,8 @@ services:
     volumes:
       - "./:/app/"
     restart: always
+    depends_on:
+      - mysql80
     links:
      - mysql80
      - redis
