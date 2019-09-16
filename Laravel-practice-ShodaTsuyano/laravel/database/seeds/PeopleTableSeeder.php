@@ -16,8 +16,8 @@ class PeopleTableSeeder extends Seeder
             'name' => 'yamada',
             'mail' => 'yamada@example.net',
             'age' => 12,
-            'created_at' => new DateTime(),
-            'updated_at' => new DateTime(),
+            'created_at' => "2019-09-15 06:24:40",
+            'updated_at' => "2019-09-15 06:24:40",
         ]);
         DB::table('people')->insert([
             'id'   => 2,

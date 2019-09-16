@@ -12,17 +12,24 @@ use App\Events\PersonEvent;
 
 class HelloController extends Controller
 {
-    public function index(Person $person = null)
+    public function index(int $id = -1)
     {
-         $data = [
-             'msg' => 'This is Vue.js application.'
-         ];
-         return view('hello.index', $data);
+        if($id == -1)
+        {
+            $data = [
+                'msg' => 'This is Vue.js application.'
+            ];
+            return view('hello.index', $data);
+        }
+        else
+        {
+            return Person::find($id)->toJson();
+        }
     }
 
     public function json(int $id = -1)
     {
-        if($id = -1)
+        if($id == -1)
         {
             return Person::get()->toJson();
         }
@@ -45,13 +52,13 @@ class HelloController extends Controller
         return redirect()->route('hello');
     }
 
-    public function save($id, $name)
-    {
-        $record = Person::find($id); // 1. id = 1のモデルを取得する
-        $record->name = $name;       // 2. id = 1のモデルのnameプロパティに値を入れる
-        $record->save();             // 3. 保存する
-        return redirect()->route('hello');
-    }
+    //public function save($id, $name)
+    //{
+    //    $record = Person::find($id); // 1. id = 1のモデルを取得する
+    //    $record->name = $name;       // 2. id = 1のモデルのnameプロパティに値を入れる
+    //    $record->save();             // 3. 保存する
+    //    return redirect()->route('hello');
+    //}
 
     public function other()
     {

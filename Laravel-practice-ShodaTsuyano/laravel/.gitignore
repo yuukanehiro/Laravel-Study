@@ -5,6 +5,8 @@
 /schemaspy
 /vendor
 .env
+.env.local
+.env.testing
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

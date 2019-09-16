@@ -75,8 +75,8 @@ services:
     links:
       - mysql80
 
-
   redis:
+    container_name: "redis"
     restart: always
     image: redis:latest
     volumes:
