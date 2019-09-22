@@ -24,3 +24,41 @@ $factory->state(Person::class, 'lower', function($faker){
         'name' => strtolower($faker->name())
     ];
 });
+
+
+
+// モデル作成後の処理
+$factory->afterMaking(Person::class,
+    function ($person, $faker){
+        $person->name .= ' [making]';
+        $person->save();
+    });
+
+// モデル保存後の処理
+$factory->afterCreating(Person::class,
+    function ($person, $faker){
+        $person->name .= ' [creating]';
+        $person->save();
+    });
+
+// モデル作成後のステート実行後の処理
+$factory->afterMakingState(person::class,
+                           'upper',
+                           function ($person, $faker) {
+                               $person->name .= ' [making state]';
+                               $person->save();
+                           });
+
+// モデル保存後のステート実行後の処理
+$factory->afterMakingState(person::class,
+                           'lower',
+                           function ($person, $faker) {
+                               $person->name .= ' [creating state]';
+                               $person->save();
+                           });
+
+
+
+
+
+
