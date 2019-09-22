@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Bus;
 use App\Jobs\MyJob;
 use Illuminate\support\Facades\Event;
 use App\Events\PersonEvent;
+use Illuminate\Support\Facades\Queue;
+use App\Listeners\PersonEventListener;
+use Illuminate\Events\CallQueuedListener;
 
 class ExampleTest extends TestCase
 {
@@ -182,5 +185,25 @@ class ExampleTest extends TestCase
         Event::fake();
         $this->get('/hello/' . $person->id)->assertOk();
         Event::assertDispatched(PersonEvent::class);
+    }
+
+    public function testQueue()
+    {
+        factory(Person::class)->create();
+        $person = factory(Person::class)->create();
+
+        Queue::fake();
+        Queue::assertNothingPushed();
+
+        MyJob::dispatch($person->id);
+        Queue::assertPushed(MyJob::class);
+
+        event(PersonEvent::class);
+        $this->get('/hello/' . $person->id)->assertOk();
+        Queue::assertPushed(CallQueuedListener::class, 2);
+        Queue::assertPushed(CallQueuedListener::class,
+            function($job) {
+                return $job->class === PersonEventListener::class;
+            });
     }
 }
