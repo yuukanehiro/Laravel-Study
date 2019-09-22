@@ -133,5 +133,27 @@ class ExampleTest extends TestCase
         MyJob::dispatch($id);
         Bus::assertDispatched(MyJob::class);
     }
-    
+
+    public function testDispatched()
+    {
+        $id = 10003;
+        $data = [
+            'id' => $id,
+            'name' => 'DUMMY2',
+            'mail' => 'dummy2@mail.com',
+            'age' => 0
+        ];
+        $person = new Person();
+        $person->fill($data)->save();
+        $this->assertDatabaseHas('people', $data);
+
+        Bus::fake();
+        MyJob::dispatch($id);
+
+        Bus::assertDispatched(MyJob::class,
+            function($job) use ($id) {
+                $p = Person::find($id)->first();
+                return $job->getPersonId() == $p->id;
+            });
+    }
 }
