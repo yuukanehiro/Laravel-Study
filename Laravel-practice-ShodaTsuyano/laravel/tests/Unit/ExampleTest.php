@@ -5,9 +5,12 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Person;
+use Illuminate\Support\Facades\Bus;
+use App\Jobs\MyJob;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -15,6 +18,17 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
+        $data = [
+            'id'   => 1,
+            'name' => 'yamada',
+            'mail' => 'yamada@example.net',
+            'age'  => '12',
+            "created_at"=>"2019-09-15 06:24:40",
+            "updated_at"=>"2019-09-15 06:24:40"
+        ];
+        $person = new Person();
+        $person->fill($data)->save();
+
         $this->get('/')->assertStatus(200);
         $this->get('/hello')->assertOk();
         //$this->post('/hello')->assertOk();
@@ -32,16 +46,6 @@ class ExampleTest extends TestCase
 
     public function testPersonModel()
     {
-        $data = [
-            'id'   => 1,
-            'name' => 'yamada',
-            'mail' => 'yamada@example.net',
-            'age'  => '12',
-            "created_at"=>"2019-09-15 06:24:40",
-            "updated_at"=>"2019-09-15 06:24:40"
-        ];
-        $this->assertDatabaseHas('people', $data);
-
         $dummy_data = [
             'name' => 'DUMMY',
             'mail' => 'dummy@example.net',
@@ -109,4 +113,25 @@ class ExampleTest extends TestCase
             $this->assertDatabaseMissing('people', $data);
         }
     }
+
+
+    public function testMyJob()
+    {
+        $id = 10002;
+        $data = [
+            'id' => $id,
+            'name' => 'DUMMY',
+            'mail' => 'dummy@mail.com',
+            'age' => 0
+        ];
+        $person = new Person();
+        $person->fill($data)->save();
+        $this->assertDatabaseHas('people', $data);
+
+        Bus::fake();
+        Bus::assertNotDispatched(MyJob::class);
+        MyJob::dispatch($id);
+        Bus::assertDispatched(MyJob::class);
+    }
+    
 }

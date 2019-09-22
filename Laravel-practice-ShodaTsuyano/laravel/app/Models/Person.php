@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class Person extends Model
 {
-    protected $guarded = ['id'];
+    //protected $guarded = ['id'];
+    protected $fillable= ['id','name','mail','age', 'created_at', 'updated_at'];
 
     public static $rules = [
         'name' => 'required',
