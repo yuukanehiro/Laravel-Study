@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Person;
 use Illuminate\Support\Facades\Bus;
 use App\Jobs\MyJob;
+use Illuminate\support\Facades\Event;
+use App\Events\PersonEvent;
 
 class ExampleTest extends TestCase
 {
@@ -154,6 +156,21 @@ class ExampleTest extends TestCase
             function($job) use ($id) {
                 $p = Person::find($id)->first();
                 return $job->getPersonId() == $p->id;
+            });
+    }
+
+    public function testPersonEvent()
+    {
+        factory(Person::class)->create();
+        $person = factory(Person::class)->create();
+
+        Event::fake();
+        Event::assertNotDispatched(PersonEvent::class);
+        event(new PersonEvent($person));
+        Event::assertDispatched(PersonEvent::class);
+        Event::assertDispatched(PersonEvent::class,
+            function($event) use ($person){
+                return $event->person === $person;
             });
     }
 }
