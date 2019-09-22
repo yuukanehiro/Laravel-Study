@@ -34,7 +34,7 @@ class ExampleTest extends TestCase
         $this->get('/')->assertStatus(200);
         $this->get('/hello')->assertOk();
         //$this->post('/hello')->assertOk();
-        $this->get('/hello/1')->assertOk();
+        //$this->get('/hello/1')->assertStatus(200);
         $this->get('/hoge')->assertStatus(404);
         $this->get('/hello')->assertSeeText('Index');
         $this->get('/hello')->assertSee('<h1>');
@@ -172,5 +172,15 @@ class ExampleTest extends TestCase
             function($event) use ($person){
                 return $event->person === $person;
             });
+    }
+
+    public function testPersonEventId()
+    {
+        factory(Person::class)->create();
+        $person = factory(Person::class)->create();
+
+        Event::fake();
+        $this->get('/hello/' . $person->id)->assertOk();
+        Event::assertDispatched(PersonEvent::class);
     }
 }

@@ -16,7 +16,7 @@
     const axios = require('axios');
     export default {
         mounted(){
-            axios.get('/hello/json')
+            axios.get('/hello/json/3')
                 .then(response => {
                     this.people = response.data;
                     this.msg = "get data";

@@ -12,19 +12,22 @@ use App\Events\PersonEvent;
 
 class HelloController extends Controller
 {
-    public function index(int $id = -1)
+    public function index(int $id = null)
     {
-        if($id == -1)
-        {
-            $data = [
-                'msg' => 'This is Vue.js application.'
-            ];
-            return view('hello.index', $data);
+        if($id !== null) {
+            event(PersonEvent::class);
+            $result = Person::find($id);
         }
-        else
-        {
-            return Person::find($id)->toJson();
+        else {
+            $result = Person::get();
         }
+        $msg = 'show people record.';
+        $data = [
+            'input' => '',
+            'msg'   => $msg,
+            'data'  => $result,
+        ];
+        return view('hello.index', $data);
     }
 
     public function json(int $id = -1)
@@ -35,7 +38,7 @@ class HelloController extends Controller
         }
         else
         {
-            return Person::find($id)->toJson();
+            return Person::find(1)->toJson();
         }
     }
 
