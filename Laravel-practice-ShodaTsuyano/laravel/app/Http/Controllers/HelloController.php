@@ -9,9 +9,11 @@ use App\Http\Pagination\MyPaginator;
 use App\Jobs\MyJob;
 use Illuminate\Support\Facades\Storage;
 use App\Events\PersonEvent;
+use App\MyClasses\PowerMyService;
 
 class HelloController extends Controller
 {
+    /** 
     public function index(int $id = null)
     {
         if($id !== null) {
@@ -26,6 +28,20 @@ class HelloController extends Controller
             'input' => '',
             'msg'   => $msg,
             'data'  => $result,
+        ];
+        return view('hello.index', $data);
+    }
+    */
+
+    public function index(PowerMyService $service)
+    {
+        $service->setId(1);
+        $msg = $service->say();
+        $result = Person::get();
+        $data = [
+            'input' => '',
+            'msg' => $msg,
+            'data' => $result
         ];
         return view('hello.index', $data);
     }

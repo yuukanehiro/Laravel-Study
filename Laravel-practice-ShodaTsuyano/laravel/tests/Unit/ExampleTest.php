@@ -177,6 +177,7 @@ class ExampleTest extends TestCase
             });
     }
 
+    /**
     public function testPersonEventId()
     {
         factory(Person::class)->create();
@@ -186,7 +187,9 @@ class ExampleTest extends TestCase
         $this->get('/hello/' . $person->id)->assertOk();
         Event::assertDispatched(PersonEvent::class);
     }
+    */
 
+    /**
     public function testQueue()
     {
         factory(Person::class)->create();
@@ -205,5 +208,30 @@ class ExampleTest extends TestCase
             function($job) {
                 return $job->class === PersonEventListener::class;
             });
+    }
+    */
+
+    public function testQueueSpecific()
+    {
+        factory(Person::class)->create();
+        $person = factory(Person::class)->create();
+
+        Queue::fake();
+        Queue::assertNothingPushed();
+
+        MyJob::dispatch($person->id)->onQueue('myjob');
+        Queue::assertPushed(MyJob::class);
+        Queue::assertPushedOn('myjob', MyJob::class);
+    }
+
+    public function testPowerMyService()
+    {
+        $response = $this->get('/hello');
+        $content = $response->getContent();
+        echo $content;
+        $response->assertSeeText(
+            '1番のりんごですね！',
+            $content
+        );
     }
 }
