@@ -11,7 +11,9 @@ use Illuminate\support\Facades\Event;
 use App\Events\PersonEvent;
 use Illuminate\Support\Facades\Queue;
 use App\Listeners\PersonEventListener;
+use App\MyClasses\PowerMyService;
 use Illuminate\Events\CallQueuedListener;
+use Mockery;
 
 class ExampleTest extends TestCase
 {
@@ -224,14 +226,36 @@ class ExampleTest extends TestCase
         Queue::assertPushedOn('myjob', MyJob::class);
     }
 
+
     public function testPowerMyService()
     {
+        $msg = '1番のりんごですね！';
         $response = $this->get('/hello');
         $content = $response->getContent();
         echo $content;
         $response->assertSeeText(
-            '1番のりんごですね！',
+            $msg,
             $content
         );
+    }
+
+    public function testPowerMyServiceByMock()
+    {
+        $msg = '*** OK ***';
+        $mock = Mockery::mock(PowerMyService::class);
+
+        $mock->shouldReceive('setId')
+                ->withArgs([1])
+                ->once()
+                ->andReturn(null);
+        $mock->shouldReceive('say')
+                ->once()
+                ->andReturn($msg);
+
+        $this->instance(PowerMyService::class, $mock);
+
+        $response = $this->get('/hello');
+        $content = $response->getContent();
+        $response->assertSeeText($msg, $content);
     }
 }
