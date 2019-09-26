@@ -1,0 +1,6 @@
+users
+pokemons
+password_resets
+migrations
+masters
+master_pokemon
