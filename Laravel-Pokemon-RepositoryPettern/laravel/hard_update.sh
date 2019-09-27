@@ -23,9 +23,10 @@ docker-compose build --no-cache &&
 docker-compose up -d &&
 
 # composer installによるライブラリの追加
-docker-compose exec php-fpm php artisan key:generate &&
 docker-compose exec php-fpm composer install &&
 docker-compose exec php-fpm composer dump-autoload &&
+docker-compose exec php-fpm php artisan key:generate &&
+
 
 # DBマイグレーション, シーディング
 docker-compose exec php-fpm php artisan migrate:refresh --seed

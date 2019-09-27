@@ -12,12 +12,16 @@ class MastersTableSeeder extends Seeder
     public function run()
     {
         $master = new \App\Models\Master([
-            'name' => 'さとし'
+            'name' => 'さとし',
+            'cnt_battle' => 10,
+            'cnt_won' => 4,
         ]);
         $master->save();
 
         $master = new \App\Models\Master([
-            'name' => 'たけし'
+            'name' => 'たけし',
+            'cnt_battle' => 100,
+            'cnt_won' => 20,
         ]);
         $master->save();
 

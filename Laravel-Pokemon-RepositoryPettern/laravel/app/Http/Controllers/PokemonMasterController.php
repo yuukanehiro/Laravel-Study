@@ -28,11 +28,7 @@ class PokemonMasterController extends Controller
         Request $request
     ) {
         $userId = $request->id;
-        //dd($userId); 2
-        //exit();
         $battleResult = $pokemonMasterService->battle($userId);
-        //dd($battleResult);
-        //exit();
         return response()->json($battleResult);
     }
 }
