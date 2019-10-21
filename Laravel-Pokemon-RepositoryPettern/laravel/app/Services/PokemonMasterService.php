@@ -2,18 +2,18 @@
 
 namespace App\Http\Services;
 
-use App\Http\Repositories\PokemonMasterRepository;
+use App\Repositories\MasterRepository;
 use App\Models\Master;
 use App\Services\Service;
 
 class PokemonMasterService extends Service
 {
-    private $pokemonMasterRepository;
+    private $MasterRepository;
 
     public function __construct(
-        PokemonMasterRepository $pokemonMasterRepository
+        MasterRepository $MasterRepository
     ) {
-        $this->pokemonMasterRepository = $pokemonMasterRepository;
+        $this->MasterRepository = $MasterRepository;
     }
 
     public function battle(int $id): array
@@ -29,10 +29,10 @@ class PokemonMasterService extends Service
         $dice = (int) rand(1,6);
         $result = $dice % 2? 'even' : 'odd';
         if ($result === 'even') {
-            $this->pokemonMasterRepository->win($id);
+            $this->MasterRepository->win($id);
             $battleResult['result'] = 'win';
         } else {
-            $this->pokemonMasterRepository->lose($id);
+            $this->MasterRepository->lose($id);
             $battleResult['result'] = 'lose';
         }
         return $battleResult;

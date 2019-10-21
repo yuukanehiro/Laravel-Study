@@ -13,7 +13,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
+        $this->app->bind(
+            \App\Repositories\MasterRepository::class,
+            function ($app) {
+                return new \App\Repositories\MasterRepository(new \App\Models\Master);
+            }
+        );
+
+        $this->app->bind(
+            \App\Service\PokemonMasterService::class,
+            function ($app) {
+                return new App\Service\MasterService(
+                $app->make('\App\Repositories\MasterRepository')
+                );
+            }
+        );
     }
 
     /**

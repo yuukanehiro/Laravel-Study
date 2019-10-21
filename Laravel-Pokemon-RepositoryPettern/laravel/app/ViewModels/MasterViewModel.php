@@ -3,7 +3,7 @@
 namespace App\Http\ViewModels;
 
 use App\Models\Master;
-use App\Http\Repositories\PokemonMasterRepository;
+use App\Repositories\PokemonMasterRepository;
 
 class MasterViewModel extends ViewModel
 {

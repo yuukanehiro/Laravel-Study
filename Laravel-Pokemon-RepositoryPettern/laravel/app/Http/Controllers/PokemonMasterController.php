@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Services\PokemonMasterService;
-use App\Http\Repositories\PokemonMasterRepository;
+use App\Repositories\MasterRepository;
 use App\Http\ViewModels\MasterViewModel;
 use Illuminate\Routing\ResponseFactory;
 
 class PokemonMasterController extends Controller
 {
     public function getMaster(
-        PokemonMasterRepository $pokemonMasterRepository,
+        MasterRepository $MasterRepository,
         Request $request
     ) {
         $userId = $request->id;
-        $master = $pokemonMasterRepository->getAllMaster($userId);
+        $master = $MasterRepository->getAllMaster($userId);
         $responseMaster = $master
                     ->map(function ($item, $key){
                         return (new MasterViewModel(['master' => $item]))->render();
