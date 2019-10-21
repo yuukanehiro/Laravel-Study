@@ -14,6 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/getMaster/{id}', 'PokemonMasterController@getMaster');
+Route::get('/getMasters', 'PokemonMasterController@getMasters');
+Route::get('/getMasters/{id}', 'PokemonMasterController@getMaster');
 Route::get('/fight/{id}', 'PokemonMasterController@fight');
