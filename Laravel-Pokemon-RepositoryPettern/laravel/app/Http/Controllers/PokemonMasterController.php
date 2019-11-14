@@ -24,7 +24,7 @@ class PokemonMasterController extends Controller
         $userId = $request->id;
         $master = $MasterRepository->getMasterById($userId);
         $responseMaster = $master
-                    ->map(function ($item, $key){
+                    ->map(function ($item, $key) {
                         return (new MasterViewModel(['master' => $item]))->render();
                     });
         return response()->json($responseMaster);
@@ -42,7 +42,7 @@ class PokemonMasterController extends Controller
     ) {
         $master = $MasterRepository->getAllMaster();
         $responseMaster = $master
-                    ->map(function ($item, $key){
+                    ->map(function ($item, $key) {
                         return (new MasterViewModel(['master' => $item]))->render();
                     });
         return response()->json($responseMaster);
